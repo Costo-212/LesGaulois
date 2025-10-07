@@ -4,6 +4,7 @@ public class Gaulois {
     private String nom;
     private int force;
     private int effetPotion = 1;
+    private Village village;
 
     public Gaulois(String nom, int force) {
         this.nom = nom;
@@ -12,6 +13,10 @@ public class Gaulois {
 
     public String getNom() {
         return nom;
+    }
+
+    public void setVillage(Village village) {
+        this.village = village;
     }
 
     public void parler(String texte) {
@@ -38,6 +43,10 @@ public class Gaulois {
     public void boirePotion(int forcePotion) {
         effetPotion = forcePotion;
         parler("Merci Druide, je sens que ma force est " + forcePotion + " fois décuplée.");
+    }
+
+    public void sePresenter() {
+        parler("Bonjour je m'appelle " + nom + " et mon village est " + (village != null ? village.getNom() : "aucun"));
     }
 
     public String toString() {
