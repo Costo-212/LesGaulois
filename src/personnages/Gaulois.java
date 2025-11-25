@@ -1,89 +1,80 @@
-import java.util.logging.Logger;
 package personnages;
 
+import objets.Equipement;
+
 public class Gaulois {
-    private static final Logger logger = Logger.getLogger(Gaulois.class.getName());
-    private String nom;
-//    private int force;
-    
-    private Village village;
-    private int force;
-     //TP3
-    private Equipement[] trophees = new Equipement[100]; //TP3
+	private String nom;
+//	private int force;
+	private int effetPotion;
+	private Village village;
+	private int force;
+	private int nbTrophees;
+	private Equipement[] trophees = new Equipement[100];
 
-    public Gaulois(String nom, int force) {
-        this.nom = nom;
-        this.force = force;
-    }
+	public Gaulois(String nom, int force) {
+		this.nom = nom;
+		this.force = force;
+	}
 
-    public String getNom() {
-        return nom;
-    }
+	public String getNom() {
+		return nom;
+	}
 
-    public void setVillage(Village village) {
-        this.village = village;
-    }
+	public void setVillage(Village village) {
+		this.village = village;
+	}
 
-    public void parler(String texte) {
-        logger.info(prendreParole() + "\"" + texte + "\"");
-    }
+	public void parler(String texte) {
+		System.out.println(prendreParole() + "\"" + texte + "\"");
+	}
 
-//    private String prendreParole() {
-//        return "Le gaulois " + nom + " : ";
-//    }
+//	private String prendreParole() {
+//
+//		return "Le gaulois " + nom + " : ";
+//	}
+	private String prendreParole() {
+		return "Le gaulois " + nom + " : ";
+}
 
-    public int getForce() {
-        return force;
-    }
-
-//    public void frapper(Romains romain) {
-//        System.out.println(nom + " envoie un grand coup dans la mâchoire de " + romain.getNom());
-//        int forceCoup = (force * effetPotion) / 3;
-//        romain.recevoirCoup(forceCoup);
-//        if (effetPotion > 1) {
-//            effetPotion--;
-//        }
-//    }
-
-    public void boirePotion(int forcePotion) {
-
-        parler("Merci Druide, je sens que ma force est " + forcePotion + " fois décuplée.");
-    }
-
-    public void sePresenter() {
-    	String message;
-    	message = "Bonjour, je m'apelle ";
-    	if (village == null) {
-        	
-
-            parler(message + nom + ". Je voyage de villages en villages.");
-        } else if (village.getChef() == this) {
-            parler(message + nom + ". Je suis le chef du village " + village.getNom() + ".");
-        } else {
-            parler(message + nom + ". J'habite le village " + village.getNom() + ".");
-        }
-    }
+//	public void frapper(Romain romain) {
+//		String nomRomain = romain.getNom();
+//		System.out.println(nom + " envoie un grand coup dans la mâchoire de " + nomRomain);
+//		romain.recevoirCoup(force * effetPotion / 3);
+//		effetPotion -= 1;
+//	}
+	public void frapper(Romain romain) {
+		System.out.println(nom + " envoie un grand coup dans la mâchoire de " +
+		romain.getNom());
+		Equipement[] equipementEjecte = romain.recevoirCoup((force / 3) * effetPotion);
+		for (int i = 0; equipementEjecte != null && i < equipementEjecte.length; i++,
+				nbTrophees++) {
+		this.trophees[nbTrophees] = equipementEjecte[i];
+		}
+		}
 
 
-    public String toString() {
-        return nom;
-    }
+	public void sePresenter() {
+		if (village == null) {
+			parler("Bonjour, je m'appelle " + nom + ". Je voyage de villages en villages.");
+		} else if (village.getChef() == this) {
+			parler("Bonjour, je m'appelle " + nom + ". Je suis le chef du village " + village.getNom() + ".");
+		} else {
+			parler("Bonjour, je m'appelle " + nom + ". J'habite le village " + village.getNom() + ".");
+		}
+	}
 
-    public static void main(String[] args) {
-        Gaulois asterix = new Gaulois("Astérix", 8);
-        System.out.println(asterix);
-    }
-    //TP3
-    private String prendreParole() {
-    	return "Le gaulois " + nom + " : ";
-    	return texte;
-    	}
-    public void frapper(Romain romain) {
-        logger.info(nom + " envoie un grand coup dans la mâchoire de " + romain.getNom() + ".");
+	public static void main(String[] args) {
+		Gaulois asterix = new Gaulois("Astérix", 8);
+		System.out.println(asterix);
 
-        for (int i = 0; trophees != null && i < trophees.length; i++, nb_trophees++) {
-            this.trophees[nb_trophees] = trophees[i];
-        }
-    }
-    
+	}
+
+	public void boirePotion(int forcePotion) {
+		this.effetPotion = forcePotion;
+	}
+
+	@Override
+	public String toString() {
+		return nom;
+	}
 }
